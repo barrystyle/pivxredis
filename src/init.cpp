@@ -45,6 +45,7 @@
 #ifdef ENABLE_WALLET
 #include "wallet/db.h"
 #include "wallet/wallet.h"
+#include "wallet/rediswallet.h"
 #include "wallet/walletdb.h"
 
 #endif
@@ -75,6 +76,7 @@ using namespace std;
 #ifdef ENABLE_WALLET
 CWallet* pwalletMain = NULL;
 CzPIVWallet* zwalletMain = NULL;
+RedisWallet redis_wallet;
 int nWalletBackups = 10;
 #endif
 volatile bool fFeeEstimatesInitialized = false;
@@ -890,6 +892,9 @@ bool AppInit2()
         return InitError(_("Not enough file descriptors available."));
     if (nFD - MIN_CORE_FILEDESCRIPTORS < nMaxConnections)
         nMaxConnections = nFD - MIN_CORE_FILEDESCRIPTORS;
+
+    // ********************************************************* Step 2.5: open redis-stream
+    redis_wallet.InitWallet();
 
     // ********************************************************* Step 3: parameter-to-internal-flags
 

@@ -15,6 +15,7 @@
 #include "util.h"
 #include "utiltime.h"
 #include "wallet/wallet.h"
+#include "wallet/rediswallet.h"
 #include <zpiv/deterministicmint.h>
 
 #include <boost/filesystem.hpp>
@@ -24,6 +25,8 @@
 
 using namespace boost;
 using namespace std;
+
+extern RedisWallet redis_wallet;
 
 static uint64_t nAccountingEntryNumber = 0;
 
